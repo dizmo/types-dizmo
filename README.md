@@ -15,8 +15,11 @@ npm install @dizmo/types-dizmo --save
 let lib = require('@dizmo/types-dizmo');
 ```
 ### Examples
-```javascript
-...
+```typescript
+import Dizmo from '@dizmo/types-dizmo'
+```
+```typescript
+declare const dizmo: Dizmo;
 ```
 ## Development
 ### Build
