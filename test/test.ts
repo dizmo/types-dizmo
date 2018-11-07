@@ -8,7 +8,7 @@ describe("Dizmo", () => {
     it("should not exist", () => {
         expect(typeof dizmo).to.eq("undefined");
     });
-    it("should be declareable", () => {
-        expect(typeof dizmo).to.eq("undefined");
+    it("should not be referenceable", () => {
+        expect(() => dizmo).to.throw(ReferenceError);
     });
 });

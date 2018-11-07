@@ -9,8 +9,10 @@ describe("Dizmo", function () {
     it("should not exist", function () {
         chai_1.expect(typeof dizmo === "undefined" ? "undefined" : _typeof(dizmo)).to.eq("undefined");
     });
-    it("should be declareable", function () {
-        chai_1.expect(typeof dizmo === "undefined" ? "undefined" : _typeof(dizmo)).to.eq("undefined");
+    it("should not be referenceable", function () {
+        chai_1.expect(function () {
+            return dizmo;
+        }).to.throw(ReferenceError);
     });
 });
 //# sourceMappingURL=test.js.map
