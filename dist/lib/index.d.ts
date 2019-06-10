@@ -12,20 +12,17 @@ export interface Dizmo {
     publicStorage: Storage;
 }
 export interface Dizmo {
-    getAttribute: <T>(path: string, options?: {
-        values?: boolean;
-        nodes?: boolean;
-    }) => T;
-    setAttribute: <T>(path: string, value: T) => void;
+    getAttribute: <T>(name: string) => T;
+    setAttribute: <T>(name: string, value: T) => void;
 }
 export interface Dizmo {
-    subscribeToAttribute: <T>(path: string, callback: (path: string, value: T) => void, subscribedCallback?: Function) => UUID;
-    subscribeToAttributeConditional: <T>(path: string, condition: string | boolean | number, callback: (path: string, value: T) => void, subscribedCallback?: Function) => UUID;
-    unsubscribeAttribute: <T>(subscriptionId: UUID) => void;
+    subscribeToAttribute: <T>(name: string, callback: (path: string, value: T, old_value?: T) => void, subscribed_callback?: Function) => UUID;
+    subscribeToAttributeConditional: <T>(name: string, condition: string | boolean | number, callback: (path: string, value: T, old_value?: T) => void, subscribed_callback?: Function) => UUID;
+    unsubscribeAttribute: <T>(subscription_id: UUID) => void;
 }
 export interface Dizmo {
-    beginUpdate: (path: string) => void;
-    endUpdate: (path: string) => void;
+    beginAttributeUpdate: (path: string) => void;
+    endAttributeUpdate: (path: string) => void;
 }
 export interface Dizmo {
     setPosition: (x: number, y: number) => void;
@@ -38,40 +35,40 @@ export interface Dizmo {
     close: () => void;
 }
 export interface Dizmo {
-    addMenuItem: (iconUri: string, text: string, callback: Function) => UUID;
-    updateMenuItem: (menuId: UUID, iconUri: string, text: string, callback: Function) => UUID;
-    removeMenuItem: (menuId: UUID) => void;
+    addMenuItem: (icon_uri: string, text: string, callback: Function) => UUID;
+    updateMenuItem: (menu_id: UUID, icon_uri: string, text: string, callback: Function) => UUID;
+    removeMenuItem: (menu_id: UUID) => void;
 }
 export interface Dizmo {
-    clone: (attributes?: object, callback?: Function) => void;
+    clone: (attributes: Object | undefined, callback?: Function) => void;
 }
 export interface Dizmo {
-    getAttention: (options: {
+    getAttention: (options: string | {
         type: string;
         duration: number;
     }) => void;
 }
 export interface Dizmo {
     getDockedDizmos: <T extends Dizmo>() => T[];
-    canDock: (flag: boolean | (() => boolean)) => void;
-    onDock: (callback: Function, subscribedCallback?: Function) => void;
-    onUndock: (callback: Function, subscribedCallback?: Function) => void;
+    canDock: (flag: boolean | (() => boolean) | Dizmo) => void;
+    onDock: (callback: Function, subscribed_callback?: Function) => void;
+    onUndock: (callback: Function, subscribed_callback?: Function) => void;
 }
 export interface Dizmo {
-    onShow: (callback: Function, subscribedCallback?: Function) => UUID;
-    onHide: (callback: Function, subscribedCallback?: Function) => UUID;
+    onShow: (callback: Function, subscribed_callback?: Function) => UUID;
+    onHide: (callback: Function, subscribed_callback?: Function) => UUID;
 }
 export interface Dizmo {
-    onMaximized: (callback: Function, subscribedCallback?: Function) => UUID;
-    onIconized: (callback: Function, subscribedCallback?: Function) => UUID;
-    onClosing: (callback: Function, subscribedCallback?: Function) => UUID;
-    onCancelClosing: (callback: Function, subscribedCallback?: Function) => UUID;
-    onDragStart: (callback: Function, subscribedCallback?: Function) => UUID;
-    onDragEnd: (callback: Function, subscribedCallback?: Function) => UUID;
-    onResizeStart: (callback: Function, subscribedCallback?: Function) => UUID;
-    onResizeEnd: (callback: Function, subscribedCallback?: Function) => UUID;
-    onShowBack: (callback: Function, subscribedCallback?: Function) => UUID;
-    onShowFront: (callback: Function, subscribedCallback?: Function) => UUID;
+    onMaximized: (callback: Function, subscribed_callback?: Function) => UUID;
+    onIconized: (callback: Function, subscribed_callback?: Function) => UUID;
+    onClosing: (callback: Function, subscribed_callback?: Function) => UUID;
+    onCancelClosing: (callback: Function, subscribed_callback?: Function) => UUID;
+    onDragStart: (callback: Function, subscribed_callback?: Function) => UUID;
+    onDragEnd: (callback: Function, subscribed_callback?: Function) => UUID;
+    onResizeStart: (callback: Function, subscribed_callback?: Function) => UUID;
+    onResizeEnd: (callback: Function, subscribed_callback?: Function) => UUID;
+    onShowBack: (callback: Function, subscribed_callback?: Function) => UUID;
+    onShowFront: (callback: Function, subscribed_callback?: Function) => UUID;
 }
 export interface Dizmo {
     showBack: () => void;
@@ -98,11 +95,11 @@ export interface Dizmo {
 }
 export interface Dizmo {
     getParentDizmo: <T extends Dizmo>() => T;
-    setParentDizmo: <T extends Dizmo>(otherDizmo: T) => boolean;
+    setParentDizmo: <T extends Dizmo>(other: T) => boolean;
 }
 export interface Dizmo {
     getChildDizmos: <T extends Dizmo>() => T[];
-    getRootDizmo: <T extends Dizmo>() => T;
+    getRootDizmo: <T extends Dizmo>() => T | undefined;
 }
 export interface Dizmo {
     getBundle: <T extends Bundle>() => T;
@@ -110,22 +107,22 @@ export interface Dizmo {
 export interface Dizmo {
     remoteHostConnected: () => boolean;
     getRemoteHost: () => any;
-    onRemoteHostConnected: (callback: Function, subscribedCallback?: Function) => UUID;
-    onRemoteHostDisconnected: (callback: Function, subscribedCallback?: Function) => UUID;
-    unsubscribeRemoteHost: (subscriptionId: UUID) => void;
+    onRemoteHostConnected: (callback: Function, subscribed_callback?: Function) => UUID;
+    onRemoteHostDisconnected: (callback: Function, subscribed_callback?: Function) => UUID;
+    unsubscribeRemoteHost: (subscription_id: UUID) => void;
 }
 export interface Dizmo {
-    onParentChanged: (callback: Function, subscribedCallback?: Function) => UUID;
-    unsubscribeParentChange: (subscriptionId: UUID) => void;
+    onParentChanged: (callback: Function, subscribed_callback?: Function) => UUID;
+    unsubscribeParentChange: (subscription_id: UUID) => void;
 }
 export interface Dizmo {
-    onChildrenAdded: (callback: Function, subscribedCallback?: Function) => UUID;
-    onChildrenRemoved: (callback: Function, subscribedCallback?: Function) => UUID;
-    unsubscribeChildren: (subscriptionId: UUID) => void;
+    onChildrenAdded: (callback: Function, subscribed_callback?: Function) => UUID;
+    onChildrenRemoved: (callback: Function, subscribed_callback?: Function) => UUID;
+    unsubscribeChildren: (subscription_id: UUID) => void;
 }
 export interface Dizmo {
-    share: (remoteHostId: string, callback?: Function) => void;
-    unshare: (remoteHostId: string, callback?: Function) => void;
+    share: (remote_host_id: string, callback?: Function) => void;
+    unshare: (remote_host_id: string, callback?: Function) => void;
 }
 export interface Dizmo {
     clearSetup: () => void;
